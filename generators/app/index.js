@@ -94,12 +94,21 @@ module.exports = class extends Generator {
       dependencies: {
         react: '16.12.0',
         'react-dom': '16.12.0',
+        'path': '0.12.7',
       },
       devDependencies: {
+        '@babel/core': '7.8.6',
+        '@babel/cli': '7.8.4',
+        '@babel/preset-env': '7.8.6',
+        '@babel/preset-react': '7.8.3',
+        'babel-loader': '8.0.6',
         jest: '25.1.0',
         webpack: '4.41.6',
         'webpack-cli': '3.3.11',
         'webpack-dev-server': '3.10.3',
+        'html-webpack-plugin': '3.2.0',
+        'mini-css-extract-plugin': '0.9.0',
+        'uglifyjs-webpack-plugin': '2.2.0',
       }
     };
 
