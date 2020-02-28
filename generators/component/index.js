@@ -13,8 +13,7 @@ module.exports = class extends Generator {
       {
         type: 'input',
         name: 'name',
-        message: 'Your react app\'s name.',
-        default: this.appname,
+        message: 'Your react components\'s name.',
       }
     ]);
 
@@ -31,14 +30,25 @@ module.exports = class extends Generator {
 
   writing() {
     // copy all template files to destinationRoot()
-    this.fs.copyTpl(
-      this.templatePath('component.js'),
-      this.destinationPath('components/component.js'),
-    );
+
+    // if --page, move component.js to pages/ else move to components/
+    if (this.options.page) {
+      this.fs.copyTpl(
+        this.templatePath('component.js'),
+        this.destinationPath('pages/' + this.answers.name + '.js'),
+        { name: this.answers.name }
+      );
+    } else {
+      this.fs.copyTpl(
+        this.templatePath('component.js'),
+        this.destinationPath('components/' + this.answers.name + '.js'),
+        { name: this.answers.name }
+      );
+    }
 
     this.fs.copyTpl(
       this.templatePath('style.css'),
-      this.destinationPath('styles/style.css'),
+      this.destinationPath('styles/' + this.answers.name + '.css'),
     );
   }
 

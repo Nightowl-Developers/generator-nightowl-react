@@ -1,6 +1,6 @@
 const React = require('react');
 
-class <%= name => extends React.Component {
+class <%= name %> extends React.Component {
   constructor() {
     // initialize your component here.
   }
