@@ -3,6 +3,12 @@ const Generator = require('yeoman-generator');
 module.exports = class extends Generator {
   constructor(args, opts) {
     super(args, opts);
+
+    //adds support for the --es6 flag
+    this.option('es5');
+
+    // check if the --es6 flag was used
+    this.esVersion = this.options.es5 ? 'es5' : 'es6';
   }
 
   async prompting() {
@@ -39,43 +45,43 @@ module.exports = class extends Generator {
   writing() {
     // copy all template files to destinationRoot()
     this.fs.copyTpl(
-      this.templatePath('.babelrc'),
-      this.destinationPath('.babelrc'),
+      this.templatePath(this.esVersion + '/.babelrc'),
+      this.destinationPath(this.answers.name + '/.babelrc'),
     );
 
     this.fs.copyTpl(
-      this.templatePath('.gitignore'),
-      this.destinationPath('.gitignore'),
+      this.templatePath(this.esVersion + '/.gitignore'),
+      this.destinationPath(this.answers.name + '/.gitignore'),
     );
 
     this.fs.copyTpl(
-      this.templatePath('.yo-rc.json'),
-      this.destinationPath('.yo-rc.json'),
+      this.templatePath(this.esVersion + '/.yo-rc.json'),
+      this.destinationPath(this.answers.name + '/.yo-rc.json'),
     );
 
     this.fs.copyTpl(
-      this.templatePath('webpack.dev.js'),
-      this.destinationPath('webpack.dev.js'),
+      this.templatePath(this.esVersion + '/webpack.dev.js'),
+      this.destinationPath(this.answers.name + '/webpack.dev.js'),
     );
 
     this.fs.copyTpl(
-      this.templatePath('webpack.prod.js'),
-      this.destinationPath('webpack.prod.js'),
+      this.templatePath(this.esVersion + '/webpack.prod.js'),
+      this.destinationPath(this.answers.name + '/webpack.prod.js'),
     );
 
     this.fs.copyTpl(
-      this.templatePath('public/index.html'),
-      this.destinationPath('public/index.html'),
+      this.templatePath(this.esVersion + '/public/index.html'),
+      this.destinationPath(this.answers.name + '/public/index.html'),
     );
 
     this.fs.copyTpl(
-      this.templatePath('src/index.js'),
-      this.destinationPath('src/index.js'),
+      this.templatePath(this.esVersion + '/src/index.js'),
+      this.destinationPath(this.answers.name + '/src/index.js'),
     );
 
     this.fs.copyTpl(
-      this.templatePath('src/app.js'),
-      this.destinationPath('src/app.js'),
+      this.templatePath(this.esVersion + '/src/app.js'),
+      this.destinationPath(this.answers.name + '/src/app.js'),
     );
 
     // create package.json
@@ -112,10 +118,11 @@ module.exports = class extends Generator {
       }
     };
 
-    this.fs.extendJSON(this.destinationPath('package.json'), pkgJson);
+    this.fs.extendJSON(this.destinationPath(this.answers.name + '/package.json'), pkgJson);
   }
 
   install() {
+    // need to cd into this.answers.name directory to fix install
     this.npmInstall();
   }
 };
