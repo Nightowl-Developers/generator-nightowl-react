@@ -38,10 +38,10 @@ module.exports = class extends Generator {
     // copy all template files to destinationRoot()
 
     // if --page, move component.js to pages/ else move to components/
-    const folderPath = this.esVersion + '/src/component.js';
+    const folderPath = this.esVersion + '/component.js';
     const destinationPath = this.options.page
-      ? 'pages/' + this.answers.name + '.js'
-      : 'components/' + this.answers.name + '.js';
+      ? 'pages/src/' + this.answers.name + '.js'
+      : 'components/src/' + this.answers.name + '.js';
 
     this.fs.copyTpl(
       this.templatePath(folderPath),
