@@ -2,6 +2,7 @@ const React = require('react');
 
 module.exports = class App extends React.Component {
   constructor() {
+    super();
     // initialize values here
   }
 
