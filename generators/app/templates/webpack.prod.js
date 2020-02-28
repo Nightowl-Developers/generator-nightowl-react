@@ -25,11 +25,7 @@ module.exports = {
       }
     },
     minimizer: [
-      new UglifyJsPlugin({
-        mangle: true,
-        extractComments: true,
-        keep_fnames: true,
-      }),
+      new UglifyJsPlugin(),
     ]
   },
   plugins: [
