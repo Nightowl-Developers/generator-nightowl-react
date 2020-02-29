@@ -9,6 +9,9 @@ module.exports = {
   entry: {
     main: './src/index.tsx'
   },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js']
+  },
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'bundle.[hash].js'
