@@ -4,11 +4,16 @@ module.exports = class extends Generator {
   constructor(args, opts) {
     super(args, opts);
 
-    //adds support for the --es6 flag
-    this.option('es5');
+    // adds support for the --es6 flag
+    this.option('es6');
 
-    // check if the --es6 flag was used
-    this.esVersion = this.options.es5 ? 'es5' : 'es6';
+    // adds support for the --typescript flag
+    this.option('typescript');
+
+    // check if the --typescript flag was used
+    this.esVersion = this.options.typescript
+      ? 'typescript'
+      : this.options.es6 ? 'es6' : 'es5';
   }
 
   async prompting() {
@@ -43,6 +48,9 @@ module.exports = class extends Generator {
   }
 
   writing() {
+    const extension = (this.esVersion === 'typescript') ? 'tsx' : 'js';
+    console.log(extension);
+
     // copy all template files to destinationRoot()
     this.fs.copyTpl(
       this.templatePath(this.esVersion + '/.babelrc'),
@@ -75,17 +83,25 @@ module.exports = class extends Generator {
     );
 
     this.fs.copyTpl(
-      this.templatePath(this.esVersion + '/src/index.js'),
-      this.destinationPath(this.answers.name + '/src/index.js'),
+      this.templatePath(this.esVersion + '/src/index.' + extension),
+      this.destinationPath(this.answers.name + '/src/index.' + extension),
     );
 
     this.fs.copyTpl(
-      this.templatePath(this.esVersion + '/src/app.js'),
-      this.destinationPath(this.answers.name + '/src/app.js'),
+      this.templatePath(this.esVersion + '/src/app.' + extension),
+      this.destinationPath(this.answers.name + '/src/app.' + extension),
     );
 
+    // check if the typescript flag was used
+    if (this.options.typescript) {
+      this.fs.copyTpl(
+        this.templatePath(this.esVersion + '/tsconfig.json'),
+        this.destinationPath(this.answers.name + '/tsconfig.json'),
+      );
+    }
+
     // create package.json
-    const pkgJson = {
+    const jsJson = {
       name: this.answers.name,
       version: '0.0.1',
       description: this.answers.description,
@@ -117,6 +133,44 @@ module.exports = class extends Generator {
         'uglifyjs-webpack-plugin': '2.2.0',
       }
     };
+
+    const tsJson = {
+      name: this.answers.name,
+      version: '0.0.1',
+      description: this.answers.description,
+      author: this.answers.author,
+      scripts: {
+        build: 'webpack',
+        dev: 'webpack-dev-server --config webpack.dev.js',
+        prod: 'webpack-dev-server --config webpack.prod.js',
+        test: 'jest',
+      },
+      main: 'src/index.js',
+      dependencies: {
+        react: '16.12.0',
+        'react-dom': '16.12.0',
+        'path': '0.12.7',
+      },
+      devDependencies: {
+        '@babel/core': '7.8.6',
+        '@babel/cli': '7.8.4',
+        '@babel/preset-typescript': '',
+        '@babel/preset-env': '7.8.6',
+        '@babel/preset-react': '7.8.3',
+        '@types/react': '16.9.23',
+        '@types/react-dom': '16.9.5',
+        'babel-loader': '8.0.6',
+        jest: '25.1.0',
+        webpack: '4.41.6',
+        'webpack-cli': '3.3.11',
+        'webpack-dev-server': '3.10.3',
+        'html-webpack-plugin': '3.2.0',
+        'mini-css-extract-plugin': '0.9.0',
+        'uglifyjs-webpack-plugin': '2.2.0',
+      }
+    };
+
+    const pkgJson = this.options.typescript ? tsJson : jsJson;
 
     this.fs.extendJSON(this.destinationPath(this.answers.name + '/package.json'), pkgJson);
   }
