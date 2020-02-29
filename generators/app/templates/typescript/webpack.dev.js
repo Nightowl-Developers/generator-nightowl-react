@@ -6,10 +6,13 @@ module.exports = {
   mode: "development",
   target: "web",
   entry: {
-    main: "./src/index.js"
+    main: "./src/index.tsx"
+  },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js']
   },
   output: {
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, "build"),
     filename: "bundle.js"
   },
   devtool: "inline-source-map",

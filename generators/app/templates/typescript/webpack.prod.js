@@ -7,10 +7,10 @@ module.exports = {
   mode: 'production',
   target: 'web',
   entry: {
-    main: './src/index.js'
+    main: './src/index.tsx'
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'build'),
     filename: 'bundle.[hash].js'
   },
   optimization: {
