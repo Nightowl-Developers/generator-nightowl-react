@@ -151,7 +151,7 @@ module.exports = class extends Generator {
       devDependencies: {
         '@babel/core': '7.8.6',
         '@babel/cli': '7.8.4',
-        '@babel/preset-typescript': '',
+        '@babel/preset-typescript': '7.8.3',
         '@babel/preset-env': '7.8.6',
         '@babel/preset-react': '7.8.3',
         '@types/react': '16.9.23',
