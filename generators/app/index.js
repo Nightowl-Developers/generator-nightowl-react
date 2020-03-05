@@ -1,11 +1,12 @@
 const Generator = require('yeoman-generator');
+const path = require('path');
 
 module.exports = class extends Generator {
   constructor(args, opts) {
     super(args, opts);
 
     // adds support for the --es6 flag
-    this.option('es6');
+    this.option('es5');
 
     // adds support for the --typescript flag
     this.option('typescript');
@@ -13,7 +14,7 @@ module.exports = class extends Generator {
     // check if the --typescript flag was used
     this.esVersion = this.options.typescript
       ? 'typescript'
-      : this.options.es6 ? 'es6' : 'es5';
+      : this.options.es5 ? 'es5' : 'es6';
   }
 
   async prompting() {
@@ -45,11 +46,12 @@ module.exports = class extends Generator {
 
     // use the cwd or the closest parent with a .yo-rc.json
     this.destinationPath();
+
+    console.log(this.destinationPath());
   }
 
   writing() {
     const extension = (this.esVersion === 'typescript') ? 'tsx' : 'js';
-    console.log(extension);
 
     // copy all template files to destinationRoot()
     this.fs.copyTpl(
@@ -60,11 +62,6 @@ module.exports = class extends Generator {
     this.fs.copyTpl(
       this.templatePath(this.esVersion + '/.gitignore'),
       this.destinationPath(this.answers.name + '/.gitignore'),
-    );
-
-    this.fs.copyTpl(
-      this.templatePath(this.esVersion + '/.yo-rc.json'),
-      this.destinationPath(this.answers.name + '/.yo-rc.json'),
     );
 
     this.fs.copyTpl(
@@ -173,6 +170,12 @@ module.exports = class extends Generator {
     const pkgJson = this.options.typescript ? tsJson : jsJson;
 
     this.fs.extendJSON(this.destinationPath(this.answers.name + '/package.json'), pkgJson);
+
+    this.destinationPath(path.join(__dirname, '/' + this.answers.name));
+
+    this.config.set('version', this.esVersion);
+
+    this.fs.copy(`${this.destinationRoot()}\\.yo-rc.json`, `${this.destinationRoot()}\\${this.answers.name}\\.yo-rc.json`);
   }
 
   install() {
