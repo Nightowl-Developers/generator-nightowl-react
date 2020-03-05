@@ -4,14 +4,14 @@ module.exports = class extends Generator {
   constructor(args, opts) {
     super(args, opts);
 
-    // adds support for --page flag
+    this.option('atom');
+    this.option('molecule');
+    this.option('organism');
+    this.option('template');
     this.option('page');
 
-    //adds support for the --es6 flag
-    this.option('es5');
-
-    // check if the --es6 flag was used
-    this.esVersion = this.options.es5 ? 'es5' : 'es6';
+    this.esVersion = this.config.get('version');
+    this.isAtomic = this.config.get('atomic');
   }
 
   async prompting() {
@@ -35,10 +35,9 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    // copy all template files to destinationRoot()
-
-    // if --page, move component.js to pages/ else move to components/
+    // TODO - create proper folderPath if atomic or not
     const folderPath = this.esVersion + '/component.js';
+  
     const destinationPath = this.options.page
       ? 'pages/src/' + this.answers.name + '.js'
       : 'components/src/' + this.answers.name + '.js';

@@ -5,16 +5,15 @@ module.exports = class extends Generator {
   constructor(args, opts) {
     super(args, opts);
 
-    // adds support for the --es6 flag
     this.option('es5');
-
-    // adds support for the --typescript flag
     this.option('typescript');
+    this.option('atomic');
 
-    // check if the --typescript flag was used
     this.esVersion = this.options.typescript
       ? 'typescript'
       : this.options.es5 ? 'es5' : 'es6';
+
+    this.isAtomic = this.options.atomic;
   }
 
   async prompting() {
@@ -97,7 +96,7 @@ module.exports = class extends Generator {
       );
     }
 
-    // create package.json
+    // create javascript package.json
     const jsJson = {
       name: this.answers.name,
       version: '0.0.1',
@@ -131,6 +130,7 @@ module.exports = class extends Generator {
       }
     };
 
+    // create typescript package.json
     const tsJson = {
       name: this.answers.name,
       version: '0.0.1',
@@ -167,14 +167,17 @@ module.exports = class extends Generator {
       }
     };
 
+    // write package.json
     const pkgJson = this.options.typescript ? tsJson : jsJson;
-
     this.fs.extendJSON(this.destinationPath(this.answers.name + '/package.json'), pkgJson);
 
     this.destinationPath(path.join(__dirname, '/' + this.answers.name));
 
+    // set configin .yo-rc.json
     this.config.set('version', this.esVersion);
+    this.config.set('atomic', this.isAtomic);
 
+    // move .yo-rc.json into project
     this.fs.copy(`${this.destinationRoot()}\\.yo-rc.json`, `${this.destinationRoot()}\\${this.answers.name}\\.yo-rc.json`);
   }
 
