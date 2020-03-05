@@ -12,6 +12,11 @@ module.exports = class extends Generator {
 
     this.esVersion = this.config.get('version');
     this.isAtomic = this.config.get('atomic');
+    this.isAtom = this.config.get('atom');
+    this.isMolecule = this.config.get('molecule');
+    this.isOrganism = this.config.get('organism');
+    this.isTemplate = this.config.get('template');
+    this.isPage = this.config.get('page');
   }
 
   async prompting() {
@@ -35,12 +40,30 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    // TODO - create proper folderPath if atomic or not
-    const folderPath = this.esVersion + '/component.js';
+    const basePath = `src/components`;
+    let componentPath = '';
+
+    if (this.isAtomic) {
+      if (this.isAtom) {
+        componentPath = `${basePath}/atoms/${this.answers.name}`;
+      } else if (this.isMolecule) {
+        componentPath = `${basePath}/molecules/${this.answers.name}`;
+      } else if (this.isOrganism) {
+        componentPath = `${basePath}/organisms/${this.answers.name}`;
+      } else if (this.isTemplate) {
+        componentPath = `${basePath}/templates/${this.answers.name}`;
+      }
+      
+      componentPath = `${basePath}/pages`;
+    } else {
+      if (this.isPage) {
+        componentPath = 'src/pages';
+      }
+
+      componentPath = basePath;
+    }
   
-    const destinationPath = this.options.page
-      ? 'pages/src/' + this.answers.name + '.js'
-      : 'components/src/' + this.answers.name + '.js';
+    const destinationPath = `${componentPath}/${this.answers.name}.js`;
 
     this.fs.copyTpl(
       this.templatePath(folderPath),
