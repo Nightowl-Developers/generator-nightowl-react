@@ -178,8 +178,8 @@ module.exports = class extends Generator {
     this.fs.copy(`${this.destinationRoot()}\\.yo-rc.json`, `${this.destinationRoot()}\\${this.answers.name}\\.yo-rc.json`);
   }
 
-  install() {
-    // need to cd into this.answers.name directory to fix install
-    this.npmInstall();
-  }
+  // install() {
+  //   // need to cd into this.answers.name directory to fix install
+  //   this.npmInstall();
+  // }
 };
