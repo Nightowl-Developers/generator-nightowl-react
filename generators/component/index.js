@@ -11,12 +11,17 @@ module.exports = class extends Generator {
     this.option('page');
 
     this.esVersion = this.config.get('version');
+
     this.isAtomic = this.config.get('atomic');
-    this.isAtom = this.config.get('atom');
-    this.isMolecule = this.config.get('molecule');
-    this.isOrganism = this.config.get('organism');
-    this.isTemplate = this.config.get('template');
-    this.isPage = this.config.get('page');
+
+    if (this.isAtomic) {
+      this.isAtom = this.config.get('atom');
+      this.isMolecule = this.config.get('molecule');
+      this.isOrganism = this.config.get('organism');
+      this.isTemplate = this.config.get('template');
+    } else {
+      this.isPage = this.config.get('page');
+    }
   }
 
   async prompting() {
@@ -52,28 +57,26 @@ module.exports = class extends Generator {
         componentPath = `${basePath}/organisms/${this.answers.name}`;
       } else if (this.isTemplate) {
         componentPath = `${basePath}/templates/${this.answers.name}`;
+      } else {
+        componentPath = `${basePath}/pages/${this.answers.name}`;
       }
-      
-      componentPath = `${basePath}/pages`;
     } else {
       if (this.isPage) {
         componentPath = 'src/pages';
+      } else {
+        componentPath = basePath;
       }
-
-      componentPath = basePath;
     }
-  
-    const destinationPath = `${componentPath}/${this.answers.name}.js`;
 
     this.fs.copyTpl(
       this.templatePath(folderPath),
-      this.destinationPath(destinationPath),
+      this.destinationPath(`${componentPath}/${this.answers.name}.js`),
       { name: this.answers.name }
     );
 
     this.fs.copyTpl(
       this.templatePath('style.css'),
-      this.destinationPath('src/styles/' + this.answers.name + '.css'),
+      this.destinationPath(`${componentPath}/${this.answers.name}.css`),
     );
   }
 };
