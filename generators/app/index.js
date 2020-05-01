@@ -7,13 +7,10 @@ module.exports = class extends Generator {
 
     this.option('es5');
     this.option('typescript');
-    this.option('atomic');
 
     this.esVersion = this.options.typescript
       ? 'typescript'
       : this.options.es5 ? 'es5' : 'es6';
-
-    this.isAtomic = this.options.atomic;
   }
 
   async prompting() {
@@ -175,7 +172,6 @@ module.exports = class extends Generator {
 
     // set configin .yo-rc.json
     this.config.set('version', this.esVersion);
-    this.config.set('atomic', this.isAtomic);
 
     // move .yo-rc.json into project
     this.fs.copy(`${this.destinationRoot()}\\.yo-rc.json`, `${this.destinationRoot()}\\${this.answers.name}\\.yo-rc.json`);

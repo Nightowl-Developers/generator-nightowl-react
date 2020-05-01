@@ -8,20 +8,14 @@ module.exports = class extends Generator {
     this.option('molecule');
     this.option('organism');
     this.option('template');
-    this.option('page');
 
     this.esVersion = this.config.get('version');
+    this.typescript = this.config.get('typescript');
 
-    this.isAtomic = this.config.get('atomic');
-
-    if (this.isAtomic) {
-      this.isAtom = this.config.get('atom');
-      this.isMolecule = this.config.get('molecule');
-      this.isOrganism = this.config.get('organism');
-      this.isTemplate = this.config.get('template');
-    } else {
-      this.isPage = this.config.get('page');
-    }
+    this.isAtom = this.options.atom;
+    this.isMolecule = this.options.molecule;
+    this.isOrganism = this.options.organism;
+    this.isTemplate = this.options.template;
   }
 
   async prompting() {
@@ -47,30 +41,23 @@ module.exports = class extends Generator {
   writing() {
     const basePath = `src/components`;
     let componentPath = '';
+    const extension = this.typescript ? '.tsx' : '.jsx';
 
-    if (this.isAtomic) {
-      if (this.isAtom) {
-        componentPath = `${basePath}/atoms/${this.answers.name}`;
-      } else if (this.isMolecule) {
-        componentPath = `${basePath}/molecules/${this.answers.name}`;
-      } else if (this.isOrganism) {
-        componentPath = `${basePath}/organisms/${this.answers.name}`;
-      } else if (this.isTemplate) {
-        componentPath = `${basePath}/templates/${this.answers.name}`;
-      } else {
-        componentPath = `${basePath}/pages/${this.answers.name}`;
-      }
+    if (this.isAtom) {
+      componentPath = `${basePath}/atoms/${this.answers.name}`;
+    } else if (this.isMolecule) {
+      componentPath = `${basePath}/molecules/${this.answers.name}`;
+    } else if (this.isOrganism) {
+      componentPath = `${basePath}/organisms/${this.answers.name}`;
+    } else if (this.isTemplate) {
+      componentPath = `${basePath}/templates/${this.answers.name}`;
     } else {
-      if (this.isPage) {
-        componentPath = 'src/pages';
-      } else {
-        componentPath = basePath;
-      }
+      componentPath = `${basePath}/pages/${this.answers.name}`;
     }
 
     this.fs.copyTpl(
       this.templatePath(folderPath),
-      this.destinationPath(`${componentPath}/${this.answers.name}.js`),
+      this.destinationPath(`${componentPath}/${this.answers.name}${extension}`),
       { name: this.answers.name }
     );
 
