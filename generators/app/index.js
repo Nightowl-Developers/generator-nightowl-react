@@ -4,13 +4,11 @@ const path = require('path');
 module.exports = class extends Generator {
   constructor(args, opts) {
     super(args, opts);
-
-    this.option('es5');
     this.option('typescript');
 
     this.esVersion = this.options.typescript
       ? 'typescript'
-      : this.options.es5 ? 'es5' : 'es6';
+      : 'es6';
   }
 
   async prompting() {
@@ -47,7 +45,7 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    const extension = (this.esVersion === 'typescript') ? 'tsx' : 'js';
+    const extension = (this.esVersion === 'typescript') ? 'ts' : 'js';
 
     // copy all template files to destinationRoot()
     this.fs.copyTpl(
@@ -93,7 +91,7 @@ module.exports = class extends Generator {
       );
     }
 
-    // create javascript package.json
+    // create javascript package.json for es6
     const jsJson = {
       name: this.answers.name,
       version: '0.0.1',
