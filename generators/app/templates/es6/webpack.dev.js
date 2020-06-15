@@ -5,10 +5,14 @@ module.exports = {
   mode: "development",
   target: "web",
   entry: {
-    main: "./src/index.js"
+    main: "./src/index.tsx"
   },
   resolve: {
-    extensions: [".js", ".jsx"]
+    extensions: ['.ts', '.tsx', '.js', '.jsx']
+  },
+  output: {
+    path: path.resolve(__dirname, "build"),
+    filename: "bundle.js"
   },
   devtool: "inline-source-map",
   plugins: [
@@ -26,7 +30,7 @@ module.exports = {
         }
       },
       {
-        test: /\.jsx?/,
+        test: /\.tsx?$/,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader"
@@ -34,12 +38,12 @@ module.exports = {
       },
       {
         test: /\.(s*)css$/,
-        use: ["style-loader", "css-loader", "scss-loader"]
+        use: ["style-loader", "css-loader", "sass-loader"]
       }
     ]
   },
   devServer: {
-    host: "0.0.0.0",
+    host: "localhost",
     port: 3000,
     contentBase: path.join(__dirname, "build"),
     filename: "bundle.js",

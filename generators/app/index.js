@@ -45,7 +45,7 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    const extension = (this.esVersion === 'typescript') ? 'ts' : 'js';
+    const extension = (this.esVersion === 'typescript') ? 'tsx' : 'js';
 
     // copy all template files to destinationRoot()
     this.fs.copyTpl(
@@ -147,6 +147,7 @@ module.exports = class extends Generator {
         '@babel/preset-typescript': '7.8.3',
         '@babel/preset-env': '7.8.7',
         '@babel/preset-react': '7.8.3',
+        '@types/node': '14.0.13',
         '@types/react': '16.9.23',
         '@types/react-dom': '16.9.5',
         'babel-loader': '8.0.6',
