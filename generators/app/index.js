@@ -131,7 +131,6 @@ module.exports = class extends Generator {
       description: this.answers.description,
       author: this.answers.author,
       scripts: {
-        build: 'webpack',
         dev: 'webpack-dev-server --config webpack.dev.js',
         prod: 'webpack-dev-server --config webpack.prod.js',
         test: 'jest',
