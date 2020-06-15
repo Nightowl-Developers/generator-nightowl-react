@@ -9,9 +9,8 @@ module.exports = {
   entry: {
     main: './src/index.js'
   },
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.[hash].js'
+  resolve: {
+    extensions: [".js", ".jsx"]
   },
   optimization: {
     splitChunks: {
@@ -67,7 +66,7 @@ module.exports = {
     ]
   },
   devServer: {
-    host: 'localhost',
+    host: '0.0.0.0',
     port: 3000,
     contentBase: path.join(__dirname, 'build'),
     filename: 'bundle.js',

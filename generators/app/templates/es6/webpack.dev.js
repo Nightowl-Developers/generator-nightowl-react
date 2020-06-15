@@ -1,5 +1,4 @@
 const path = require("path");
-const webpack = require('webpack');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
@@ -8,9 +7,8 @@ module.exports = {
   entry: {
     main: "./src/index.js"
   },
-  output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "bundle.js"
+  resolve: {
+    extensions: [".js", ".jsx"]
   },
   devtool: "inline-source-map",
   plugins: [
@@ -28,7 +26,7 @@ module.exports = {
         }
       },
       {
-        test: /\.js/,
+        test: /\.jsx?/,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader"
@@ -36,12 +34,12 @@ module.exports = {
       },
       {
         test: /\.(s*)css$/,
-        use: ["css-loader"]
+        use: ["style-loader", "css-loader", "scss-loader"]
       }
     ]
   },
   devServer: {
-    host: "localhost",
+    host: "0.0.0.0",
     port: 3000,
     contentBase: path.join(__dirname, "build"),
     filename: "bundle.js",
