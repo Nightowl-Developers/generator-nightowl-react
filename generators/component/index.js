@@ -24,6 +24,18 @@ module.exports = class extends Generator {
         type: 'input',
         name: 'name',
         message: 'Your react components\'s name.',
+      },
+      {
+        type: 'list',
+        name: 'type',
+        message: 'Select your component type.',
+        choices: [
+          'atom',
+          'molecule',
+          'organism',
+          'template',
+          'page',
+        ]
       }
     ]);
 
@@ -41,7 +53,7 @@ module.exports = class extends Generator {
   writing() {
     const basePath = `src/components`;
     let componentPath = '';
-    const extension = this.typescript ? '.tsx' : '.jsx';
+    const extension = this.typescript ? '.tsx' : '.js';
 
     if (this.isAtom) {
       componentPath = `${basePath}/atoms/${this.answers.name}`;
@@ -62,8 +74,8 @@ module.exports = class extends Generator {
     );
 
     this.fs.copyTpl(
-      this.templatePath('style.css'),
-      this.destinationPath(`${componentPath}/${this.answers.name}.css`),
+      this.templatePath('style.sass'),
+      this.destinationPath(`${componentPath}/${this.answers.name}.sass`),
     );
   }
 };
