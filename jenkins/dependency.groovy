@@ -12,25 +12,33 @@ pipeline {
 
         stage("Run Javascript Yeoman Generator") {
             steps {
-                sh "yo nightowl-react"
+                nodejs(nodeJSInstallationName: "Yeoman") {
+                    sh "yo nightowl-react"
+                }
             }
         }
 
         stage("Start Javascript App") {
             steps {
-                sh "npm run dev"
+                nodejs(nodeJSInstallationName: "Yeoman") {
+                    sh "npm run dev"
+                }
             }
         }
 
         stage("Run Typescript Yeoman Generator") {
             steps {
-                sh "yo nightowl-react --typescript"
+                nodejs(nodeJSInstallationName: "Yeoman") {
+                    sh "yo nightowl-react --typescript"
+                }
             }
         }
 
         stage("Start Typescript App") {
             steps {
-                sh "npm run dev"
+                nodejs(nodeJSInstallationName: "Yeoman") {
+                    sh "npm run dev"
+                }
             }
         }
     }
