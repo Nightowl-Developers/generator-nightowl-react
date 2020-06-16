@@ -14,6 +14,7 @@ pipeline {
             steps {
                 nodejs(nodeJSInstallationName: "Yeoman") {
                     sh "yo nightowl-react"
+                    sh "npm link"
                 }
             }
         }
