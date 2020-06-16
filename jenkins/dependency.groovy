@@ -27,8 +27,11 @@ pipeline {
 
         stage("Start Javascript App") {
             steps {
-                nodejs(nodeJSInstallationName: "Yeoman") {
-                    sh "npm run dev"
+                dir("javascripttest") {
+                    nodejs(nodeJSInstallationName: "Yeoman") {
+                        npm "ci"
+                        sh "npm run dev"
+                    }
                 }
             }
         }
@@ -50,8 +53,11 @@ pipeline {
 
         stage("Start Typescript App") {
             steps {
-                nodejs(nodeJSInstallationName: "Yeoman") {
-                    sh "npm run dev"
+                dir("typescripttest") {
+                    nodejs(nodeJSInstallationName: "Yeoman") {
+                        npm "ci"
+                        sh "npm run dev"
+                    }
                 }
             }
         }
