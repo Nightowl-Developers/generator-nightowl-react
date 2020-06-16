@@ -1,6 +1,6 @@
 # Nightowl React Generator
 
-This [Yeoman Generator]() scaffolds a simple javascript [React.js]()
+This [Yeoman Generator](https://yeoman.io) scaffolds a simple javascript [React.js](https://reactjs.org/)
 application. It is the simplest way to get a working React.js app started.
 
 ## Install Nightowl React
