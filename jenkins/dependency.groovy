@@ -16,9 +16,9 @@ pipeline {
                     sh "npm link"
                     sh """
                         {
-                            echo "typescripttest";
-                            echo "A typescript app.";
-                            echo "Joshua Blevins";
+                            echo "javascripttest\n";
+                            echo "A typescript app.\n";
+                            echo "Joshua Blevins\n";
                         } | yo nightowl-react
                     """
                 }
@@ -39,9 +39,9 @@ pipeline {
                     sh "npm link"
                     sh """
                         {
-                            echo "typescripttest";
-                            echo "A typescript app.";
-                            echo "Joshua Blevins";
+                            echo "typescripttest\n";
+                            echo "A typescript app.\n";
+                            echo "Joshua Blevins\n";
                         } | yo nightowl-react --typescript
                     """
                 }
