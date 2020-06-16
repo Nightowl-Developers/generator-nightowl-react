@@ -14,7 +14,13 @@ pipeline {
             steps {
                 nodejs(nodeJSInstallationName: "Yeoman") {
                     sh "npm link"
-                    sh "yo nightowl-react"
+                    sh """
+                        {
+                            echo "typescripttest";
+                            echo "A typescript app.";
+                            echo "Joshua Blevins";
+                        } | yo nightowl-react
+                    """
                 }
             }
         }
@@ -30,7 +36,14 @@ pipeline {
         stage("Run Typescript Yeoman Generator") {
             steps {
                 nodejs(nodeJSInstallationName: "Yeoman") {
-                    sh "yo nightowl-react --typescript"
+                    sh "npm link"
+                    sh """
+                        {
+                            echo "typescripttest";
+                            echo "A typescript app.";
+                            echo "Joshua Blevins";
+                        } | yo nightowl-react --typescript
+                    """
                 }
             }
         }
