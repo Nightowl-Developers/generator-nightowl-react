@@ -9,7 +9,15 @@
     "generators"
   ],
   "keywords": [
-    "yeoman-generator"
+    "yeoman-generator",
+    "react",
+    "scaffolding",
+    "es6",
+    "ecmascript6",
+    "typescript",
+    "atomic",
+    "component",
+    "design"
   ],
   "dependencies": {
     "yeoman-generator": "^4.5.0"
