@@ -13,8 +13,8 @@ pipeline {
         stage("Run Javascript Yeoman Generator") {
             steps {
                 nodejs(nodeJSInstallationName: "Yeoman") {
-                    sh "yo nightowl-react"
                     sh "npm link"
+                    sh "yo nightowl-react"
                 }
             }
         }
