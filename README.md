@@ -34,7 +34,9 @@ no flag      | Creates a react EcmaScript 6 application.
 ## Using the Component Sub-Generator
 
 To create components using the Nightowl React Generator, you can use the
-`yo nightowl-react:component` command. It creates atomic components, with page components being the component that is created by default.
+`yo nightowl-react:component` command.
+
+This generator knows to create a JavaScript or TypeScript file by reading the `yo-rc.json` file that the `yo nightowl-react` generator placed at the root of your project.
 
 This generator has different flags that can modify how it behaves.
 
