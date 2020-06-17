@@ -4,18 +4,7 @@ module.exports = class extends Generator {
   constructor(args, opts) {
     super(args, opts);
 
-    this.option('atom');
-    this.option('molecule');
-    this.option('organism');
-    this.option('template');
-
     this.esVersion = this.config.get('version');
-    this.typescript = this.config.get('typescript');
-
-    this.isAtom = this.options.atom;
-    this.isMolecule = this.options.molecule;
-    this.isOrganism = this.options.organism;
-    this.isTemplate = this.options.template;
   }
 
   async prompting() {
@@ -53,22 +42,43 @@ module.exports = class extends Generator {
   writing() {
     const basePath = `src/components`;
     let componentPath = '';
-    const extension = this.typescript ? '.tsx' : '.js';
+    let componentTemplateFile = '';
+    const folderPath = this.version === 'typescript'
+      ? 'typescript'
+      : 'es6';
+    const extension = this.version === 'typescript'
+      ? '.tsx'
+      : '.js';
 
-    if (this.isAtom) {
-      componentPath = `${basePath}/atoms/${this.answers.name}`;
-    } else if (this.isMolecule) {
-      componentPath = `${basePath}/molecules/${this.answers.name}`;
-    } else if (this.isOrganism) {
-      componentPath = `${basePath}/organisms/${this.answers.name}`;
-    } else if (this.isTemplate) {
-      componentPath = `${basePath}/templates/${this.answers.name}`;
-    } else {
-      componentPath = `${basePath}/pages/${this.answers.name}`;
+    switch (this.answers.type) {
+      case 'atom':
+        componentPath = `${basePath}/atoms/${this.answers.name}`;
+        componentTemplateFile = `functional${extension}`;
+        break;
+
+      case 'molecule':
+        componentPath = `${basePath}/molecules/${this.answers.name}`;
+        componentTemplateFile = `functional${extension}`;
+        break;
+
+      case 'organism':
+        componentPath = `${basePath}/organisms/${this.answers.name}`;
+        componentTemplateFile = `functional${extension}`;
+        break;
+
+      case 'template':
+        componentPath = `${basePath}/templates/${this.answers.name}`;
+        componentTemplateFile = `functional${extension}`;
+        break;
+
+      default:
+        componentPath = `${basePath}/pages/${this.answers.name}`;
+        componentTemplateFile = `page${extension}`;
+        break;
     }
 
     this.fs.copyTpl(
-      this.templatePath(folderPath),
+      this.templatePath(`${folderPath}/${componentTemplateFile}`),
       this.destinationPath(`${componentPath}/${this.answers.name}${extension}`),
       { name: this.answers.name }
     );
