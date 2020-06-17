@@ -4,6 +4,7 @@ const path = require('path');
 module.exports = class extends Generator {
   constructor(args, opts) {
     super(args, opts);
+
     this.option('typescript');
 
     this.esVersion = this.options.typescript
@@ -40,8 +41,6 @@ module.exports = class extends Generator {
 
     // use the cwd or the closest parent with a .yo-rc.json
     this.destinationPath();
-
-    console.log(this.destinationPath());
   }
 
   writing() {
@@ -100,13 +99,13 @@ module.exports = class extends Generator {
       scripts: {
         dev: 'webpack-dev-server --config webpack.dev.js',
         prod: 'webpack-dev-server --config webpack.prod.js',
-        test: 'jest',
+        test: 'jest'
       },
       main: 'src/index.js',
       dependencies: {
         react: '16.12.0',
         'react-dom': '16.12.0',
-        'path': '0.12.7',
+        'path': '0.12.7'
       },
       devDependencies: {
         '@babel/core': '7.8.6',
@@ -120,7 +119,7 @@ module.exports = class extends Generator {
         'webpack-dev-server': '3.10.3',
         'html-webpack-plugin': '3.2.0',
         'mini-css-extract-plugin': '0.9.0',
-        'uglifyjs-webpack-plugin': '2.2.0',
+        'uglifyjs-webpack-plugin': '2.2.0'
       }
     };
 
@@ -133,13 +132,13 @@ module.exports = class extends Generator {
       scripts: {
         dev: 'webpack-dev-server --config webpack.dev.js',
         prod: 'webpack-dev-server --config webpack.prod.js',
-        test: 'jest',
+        test: 'jest'
       },
       main: 'src/index.js',
       dependencies: {
         react: '16.12.0',
         'react-dom': '16.12.0',
-        'path': '0.12.7',
+        'path': '0.12.7'
       },
       devDependencies: {
         '@babel/core': '7.8.6',
@@ -157,7 +156,7 @@ module.exports = class extends Generator {
         'webpack-dev-server': '3.10.3',
         'html-webpack-plugin': '3.2.0',
         'mini-css-extract-plugin': '0.9.0',
-        'uglifyjs-webpack-plugin': '2.2.0',
+        'uglifyjs-webpack-plugin': '2.2.0'
       }
     };
 
@@ -167,7 +166,7 @@ module.exports = class extends Generator {
 
     this.destinationPath(path.join(__dirname, '/' + this.answers.name));
 
-    // set configin .yo-rc.json
+    // set configc in .yo-rc.json
     this.config.set('version', this.esVersion);
 
     // move .yo-rc.json into project
