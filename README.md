@@ -3,6 +3,15 @@
 This [Yeoman Generator](https://yeoman.io) scaffolds a simple javascript [React.js](https://reactjs.org/)
 application. It is the simplest way to get a working React.js app started.
 
+## Explicit Biases
+
+The project this Yeoman Generator scaffolds does have some inherent biases that are there to enforce higher standards of maintainability and performance in React applications.
+
+- components are functional (no classes)
+- components are expected to use [React Hooks](https://reactjs.org/docs/hooks-intro.html)
+- components are structured using [Atomic Design](https://atomicdesign.bradfrost.com/)
+- styling is done with [Sass](https://sass-lang.com/)
+
 ## Install Nightowl React
 
 Before you can use this tool, you will need to install it and Yo. To do
