@@ -19,14 +19,15 @@ This generator has different flags that can modify how it behaves.
 
  Flag        | Description
 -------------|------------------------------------------------
-none         | Creates a react EcmaScript 6 application.
 --typescript | Creates a react Typescript application.
+no flag      | Creates a react EcmaScript 6 application.
 
 ## Using the Component Sub-Generator
 
 To create components using the Nightowl React Generator, you can use the
-`` command. It creates anomic components, with page components being the
-component that is created by default.
+`yo nightowl-react:component` command. It creates atomic components, with page components being the component that is created by default.
+
+This generator has different flags that can modify how it behaves.
 
  Flag        | Description
 -------------|------------------------------------------------------------
