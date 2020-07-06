@@ -5,15 +5,19 @@ module.exports = {
   mode: "development",
   target: "web",
   entry: {
-    main: "./src/index.tsx"
+    main: "./src/index.js"
   },
   resolve: {
-    extensions: ['.ts', '.tsx']
+    extensions: [
+      '.js',
+      '.jsx'
+    ]
   },
   output: {
     path: path.resolve(__dirname, "build"),
     filename: "bundle.js"
   },
+  // make conditional based on env variable
   devtool: "inline-source-map",
   plugins: [
     new HtmlWebpackPlugin({
@@ -30,15 +34,11 @@ module.exports = {
         }
       },
       {
-        test: /\.ts$/,
+        test: /\.jsx?$/,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader"
         }
-      },
-      {
-        test: /\.(s*)css$/,
-        use: ["style-loader", "css-loader", "sass-loader"]
       }
     ]
   },
