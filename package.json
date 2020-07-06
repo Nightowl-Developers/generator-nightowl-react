@@ -17,7 +17,15 @@
     "typescript",
     "atomic",
     "component",
-    "design"
+    "design",
+    "css",
+    "sass",
+    "scss",
+    "less",
+    "styled-components",
+    "eslint",
+    "airbnb",
+    "prettier"
   ],
   "dependencies": {
     "yeoman-generator": "^4.5.0"
