@@ -138,8 +138,8 @@ module.exports = class extends Generator {
     );
 
     this.fs.copyTpl(
-      this.templatePath(`${this.esVersion}/src/app.${extension}`),
-      this.destinationPath(`${this.answers.name}/src/app.${extension}`),
+      this.templatePath(`${this.esVersion}/src/app.${extension}x`),
+      this.destinationPath(`${this.answers.name}/src/app.${extension}x`),
     );
 
     // check if the typescript flag was used
