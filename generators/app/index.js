@@ -263,7 +263,7 @@ module.exports = class extends Generator {
     this.config.set('version', this.esVersion);
 
     // move .yo-rc.json into project
-    this.fs.copy(`${this.destinationRoot()}\\.yo-rc.json`, `${this.destinationRoot()}\\${this.answers.name}\\.yo-rc.json`);
+    // this.fs.copy(`${this.destinationRoot()}\\.yo-rc.json`, `${this.destinationRoot()}\\${this.answers.name}\\.yo-rc.json`);
   }
 
   // install() {
