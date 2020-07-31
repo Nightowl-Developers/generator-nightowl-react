@@ -7,12 +7,12 @@ const webpackSass = require('./style/webpack.sass');
 
 const doesHaveDependency = require('../utils/dependencies').doesHaveDependency;
 
-const config = doesHaveDependency('css-loader')
-    ? merge([webpackBase, webpackCss])
+const config = doesHaveDependency('sass-loader')
+    ? merge([webpackBase, webpackSass])
     : doesHaveDependency('less-loader')
         ? merge([webpackBase, webpackLess])
-        : doesHaveDependency('sass-loader')
-            ? merge([webpackBase, webpackSass])
+        : doesHaveDependency('css-loader')
+            ? merge([webpackBase, webpackCss])
             : webpackBase;
 
 module.exports = config;
