@@ -1,6 +1,6 @@
 {
   "name": "@nightowl-developers/generator-nightowl-react",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "The nightowl developers yoeman generator for a react application that uses babel and webpack.",
   "scripts": {
     "publish:alpha": "npm publish --access=public --scope=@nightowl-developers --tag=alpha",
