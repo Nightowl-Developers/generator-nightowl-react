@@ -229,7 +229,7 @@ module.exports = class extends Generator {
       description: this.answers.description,
       author: this.answers.author,
       scripts: {
-        start: 'webpack-dev-server --config webpack/webpack.base.js',
+        start: 'webpack-dev-server --config webpack/webpack.dev.js',
         lint: 'eslint --config eslint/eslint.base.js src/**/*.js',
         'lint:fix': 'eslint --config eslint/eslint.base.js src/**/*.js --fix',
         test: 'jest',
