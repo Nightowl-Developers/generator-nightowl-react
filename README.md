@@ -34,7 +34,7 @@ To use Nightowl React, you need to install Yeoman and Nightowl React.
 npm i -g yo
 
 // install nightowl-react generator
-npm i -g generator-nightowl-react
+npm i -g @nightowl-developers/generator-nightowl-react
 ```
 
 ## Using Nightowl React
