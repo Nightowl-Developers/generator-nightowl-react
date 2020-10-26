@@ -43,5 +43,9 @@ A simple shell command is all that is required to use Nightowl React. Nightowl R
 show multiple prompts to configure your React app.
 
 ```shell script
-yo nightowl-react
+yo @nightowl-developers/nightowl-react
 ```
+
+## Typescript Support
+
+...coming soon
