@@ -20,6 +20,7 @@ Nightowl React supports the following styling libraries.
 Nightowl React supports the following ESLint profiles.
 - airbnb
 - prettier
+- eslint:recommended
 
 ## Explicit Biases
 
