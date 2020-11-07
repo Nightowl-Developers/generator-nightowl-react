@@ -7,6 +7,8 @@ application. It is the simplest way to get a working React.js app started.
 
 The motivation behind Nightowl React is to provide a tool that scaffolds a powerful, robust, and easy to extend react application.
 
+Nightowl React supports both JavaScript and TypeScript.
+
 ## Styling Support
 
 Nightowl React supports the following styling libraries.
@@ -66,7 +68,3 @@ To add plugins or modify base settings, you can modify the `eslint.base.js` file
 If you are using the `airbnb` profile and want to tailor your linting rules, you will want to modify the `eslint.airbnb.js` file.
 
 If you are using the `prettier` profile and want to tailor your linting rules, you will want to modify the `eslint.prettier.js` file.
-
-## Typescript Support
-
-...coming soon
