@@ -4,12 +4,6 @@ const path = require('path');
 module.exports = class extends Generator {
   constructor(args, opts) {
     super(args, opts);
-
-    this.option('typescript');
-
-    this.esVersion = this.options.typescript
-      ? 'typescript'
-      : 'es6';
   }
 
   async prompting() {
@@ -31,12 +25,21 @@ module.exports = class extends Generator {
       },
       {
         type: 'list',
+        name: 'esVersion',
+        message: 'Is this a typescript project?',
+        choices: [
+          'javascript',
+          'typescript'
+        ]
+      },
+      {
+        type: 'list',
         name: 'linter',
         message: 'Select your preferred linter profile.',
         choices: [
             'airbnb',
             'prettier',
-            'none',
+            'eslint:recommended',
         ]
       },
       {
@@ -64,94 +67,100 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    const extension = (this.esVersion === 'typescript') ? 'tsx' : 'js';
+    const extension = (this.answers.esVersion === 'typescript') ? 'ts' : 'js';
+    const jsxExtension = (this.answers.esVersion === 'typescript') ? 'tsx' : 'jsx';
 
     // copy all template files to destinationRoot()
     this.fs.copyTpl(
-      this.templatePath(`${this.esVersion}/.babelrc`),
+      this.templatePath(`${this.answers.esVersion}/.babelrc`),
       this.destinationPath(`${this.answers.name}/.babelrc`),
     );
 
-    // this.fs.copyTpl(
-    //   this.templatePath(this.esVersion + '/.gitignore'),
-    //   this.destinationPath(this.answers.name + '/.gitignore'),
-    // );
+    this.fs.copyTpl(
+      this.templatePath(`${this.answers.esVersion}/.gitignore`),
+      this.destinationPath(`${this.answers.name}/.gitignore`),
+    );
 
     /* Copy ESLint Config Files */
     this.fs.copyTpl(
-        this.templatePath(`${this.esVersion}/eslint/eslint.base.js`),
+        this.templatePath(`${this.answers.esVersion}/eslint/eslint.base.js`),
         this.destinationPath(`${this.answers.name}/eslint/eslint.base.js`),
     );
 
     this.fs.copyTpl(
-        this.templatePath(`${this.esVersion}/eslint/eslint.airbnb.js`),
+        this.templatePath(`${this.answers.esVersion}/eslint/eslint.airbnb.js`),
         this.destinationPath(`${this.answers.name}/eslint/eslint.airbnb.js`),
     );
 
     this.fs.copyTpl(
-        this.templatePath(`${this.esVersion}/eslint/eslint.prettier.js`),
+        this.templatePath(`${this.answers.esVersion}/eslint/eslint.prettier.js`),
         this.destinationPath(`${this.answers.name}/eslint/eslint.prettier.js`),
     );
 
     /* Copy Webpack Config Files */
     this.fs.copyTpl(
-        this.templatePath(`${this.esVersion}/webpack/webpack.dev.js`),
+        this.templatePath(`${this.answers.esVersion}/webpack/webpack.dev.js`),
         this.destinationPath(`${this.answers.name}/webpack/webpack.dev.js`),
+    );
+    
+    this.fs.copyTpl(
+        this.templatePath(`${this.answers.esVersion}/webpack/webpack.prod.js`),
+        this.destinationPath(`${this.answers.name}/webpack/webpack.prod.js`),
     );
 
     this.fs.copyTpl(
-      this.templatePath(`${this.esVersion}/webpack/webpack.base.js`),
+      this.templatePath(`${this.answers.esVersion}/webpack/webpack.base.js`),
       this.destinationPath(`${this.answers.name}/webpack/webpack.base.js`),
     );
 
     this.fs.copyTpl(
-        this.templatePath(`${this.esVersion}/webpack/style/webpack.css.js`),
+        this.templatePath(`${this.answers.esVersion}/webpack/style/webpack.css.js`),
         this.destinationPath(`${this.answers.name}/webpack/style/webpack.css.js`),
     );
 
     this.fs.copyTpl(
-      this.templatePath(`${this.esVersion}/webpack/style/webpack.less.js`),
+      this.templatePath(`${this.answers.esVersion}/webpack/style/webpack.less.js`),
       this.destinationPath(`${this.answers.name}/webpack/style/webpack.less.js`),
     );
 
     this.fs.copyTpl(
-      this.templatePath(`${this.esVersion}/webpack/style/webpack.sass.js`),
+      this.templatePath(`${this.answers.esVersion}/webpack/style/webpack.sass.js`),
       this.destinationPath(`${this.answers.name}/webpack/style/webpack.sass.js`),
     );
 
     /* Copy Util Files */
     this.fs.copyTpl(
-        this.templatePath(`${this.esVersion}/utils/dependencies.js`),
+        this.templatePath(`${this.answers.esVersion}/utils/dependencies.js`),
         this.destinationPath(`${this.answers.name}/utils/dependencies.js`),
     );
 
     /* Copy Public Files */
     this.fs.copyTpl(
-      this.templatePath(`${this.esVersion}/public/index.html`),
+      this.templatePath(`${this.answers.esVersion}/public/index.html`),
       this.destinationPath(`${this.answers.name}/public/index.html`),
     );
 
     /* Copy App Files */
     this.fs.copyTpl(
-      this.templatePath(`${this.esVersion}/src/index.${extension}`),
+      this.templatePath(`${this.answers.esVersion}/src/index.${extension}`),
       this.destinationPath(`${this.answers.name}/src/index.${extension}`),
     );
 
     this.fs.copyTpl(
-      this.templatePath(`${this.esVersion}/src/app.${extension}x`),
-      this.destinationPath(`${this.answers.name}/src/app.${extension}x`),
+      this.templatePath(`${this.answers.esVersion}/src/app.${jsxExtension}`),
+      this.destinationPath(`${this.answers.name}/src/app.${jsxExtension}`),
     );
 
-    // check if the typescript flag was used
-    if (this.options.typescript) {
+    /* Copy Typescript Config File */
+    if (this.answers.esVersion === 'typescript') {
       this.fs.copyTpl(
-        this.templatePath(this.esVersion + '/tsconfig.json'),
+        this.templatePath(this.answers.esVersion + '/tsconfig.json'),
         this.destinationPath(this.answers.name + '/tsconfig.json'),
       );
     }
 
     const reactDependencies = {
-      react: '16.12.0',
+      'react': '16.12.0',
       'react-dom': '16.12.0',
       'react-router-dom': '5.2.0',
     };
@@ -167,7 +176,7 @@ module.exports = class extends Generator {
       'babel-loader': '8.0.6',
       'file-loader': '6.0.0',
       'html-webpack-plugin': '3.2.0',
-      webpack: '4.41.6',
+      'webpack': '4.41.6',
       'webpack-cli': '3.3.11',
       'webpack-dev-server': '3.10.3',
       'webpack-merge': '4.2.2',
@@ -216,11 +225,15 @@ module.exports = class extends Generator {
     const jestDependencies = {
       'enzyme': '3.11.0',
       'enzyme-adapter-react-16': '1.15.0',
-      jest: '25.1.0',
+      'jest': '25.1.0',
     };
 
     const typescriptDependencies = {
-      //
+      '@babel/preset-typescript': '7.12.1',
+      '@types/node': '14.14.6',
+      '@types/react': '16.9.56',
+      '@types/react-dom': '16.9.9',
+      'typescript': '4.0.5'
     };
 
     const packageJson = {
@@ -229,11 +242,24 @@ module.exports = class extends Generator {
       description: this.answers.description,
       author: this.answers.author,
       scripts: {
-        start: 'webpack-dev-server --config webpack/webpack.dev.js',
+        dev: 'webpack-dev-server --config webpack/webpack.dev.js',
+        ...(
+          this.answers.esVersion === 'typescript'
+            ? {
+              build: 'tsc -b',
+              serve: 'webpack-dev-server --config webpack/webpack.prod.js',
+              prod: 'npm run build && npm run serve'
+            }
+            : {
+              build: 'npx babel src/**.* --out-dir build',
+              serve: 'webpack-dev-server --config webpack/webpack.prod.js',
+              prod: 'npm run build && npm run serve'
+            }
+        ),
+        clean: 'rimraf build && rimraf dist',
         lint: 'eslint --config eslint/eslint.base.js src/**/*.js',
         'lint:fix': 'eslint --config eslint/eslint.base.js src/**/*.js --fix',
-        test: 'jest',
-        'test:coverage': '',
+        test: 'jest'
       },
       main: 'src/index.js',
       dependencies: {
@@ -248,8 +274,10 @@ module.exports = class extends Generator {
         ...jestDependencies,
         ...(this.answers.style === 'less' && lessDependencies),
         ...(this.answers.linter === 'prettier' && prettierDependencies),
+        'rimraf': '3.0.2',
         ...(this.answers.style === 'sass' && sassDependencies),
         ...(this.answers.style === 'styled-components' && styledComponentsDependencies),
+        ...(this.answers.esVersion === 'typescript' && typescriptDependencies),
         ...webpackDependencies,
       }
     };
@@ -260,14 +288,15 @@ module.exports = class extends Generator {
     this.destinationPath(path.join(__dirname, '/' + this.answers.name));
 
     // set configc in .yo-rc.json
-    this.config.set('version', this.esVersion);
+    this.config.set('version', this.answers.esVersion);
+    this.config.set('style', this.answers.style);
 
     // move .yo-rc.json into project
-    // this.fs.copy(`${this.destinationRoot()}\\.yo-rc.json`, `${this.destinationRoot()}\\${this.answers.name}\\.yo-rc.json`);
+    this.fs.copy(`${this.destinationRoot()}\\.yo-rc.json`, `${this.destinationRoot()}\\${this.answers.name}\\.yo-rc.json`);
   }
 
-  // install() {
-  //   // need to cd into this.answers.name directory to fix install
-  //   this.npmInstall();
-  // }
+  install() {
+    // need to cd into this.answers.name directory to fix install
+    this.npmInstall();
+  }
 };
