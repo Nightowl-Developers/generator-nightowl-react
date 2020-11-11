@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const merge = require('webpack-merge');
 
 const webpackBase = require('./webpack.base');
@@ -8,6 +9,7 @@ const webpackSass = require('./style/webpack.sass');
 const doesHaveDependency = require('../utils/dependencies').doesHaveDependency;
 
 const devSpecificConfiguration = {
+    mode: "development",
     entry: {
         main: './src/index.tsx'
     },
@@ -19,6 +21,11 @@ const devSpecificConfiguration = {
             '.tsx'
         ]
     },
+    plugins: [
+        new webpack.debug.ProfilingPlugin({
+            outputPath: 'profiling/profileEvents.json'
+        })
+    ],
     devtool: 'inline-source-map'
 }
 
