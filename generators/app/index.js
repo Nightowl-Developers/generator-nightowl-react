@@ -76,11 +76,6 @@ module.exports = class extends Generator {
       this.destinationPath(`${this.answers.name}/.babelrc`),
     );
 
-    this.fs.copyTpl(
-      this.templatePath(`${this.answers.esVersion}/.gitignore`),
-      this.destinationPath(`${this.answers.name}/.gitignore`),
-    );
-
     /* Copy ESLint Config Files */
     this.fs.copyTpl(
         this.templatePath(`${this.answers.esVersion}/eslint/eslint.base.js`),
