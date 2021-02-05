@@ -4,7 +4,9 @@ module.exports = class extends Generator {
   constructor(args, opts) {
     super(args, opts);
 
+    // pull data from config files
     this.esVersion = this.config.get('version');
+    this.style = this.config.get('style');
   }
 
   async prompting() {
@@ -40,52 +42,32 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    const basePath = `src/components`;
-    let componentPath = '';
-    let componentTemplateFile = '';
-    const folderPath = this.version === 'typescript'
+    // the template directory
+    const versionTemplateDirectory = this.version === 'typescript'
       ? 'typescript'
-      : 'es6';
-    const extension = this.version === 'typescript'
+      : 'javascript';
+
+    // the component extension
+    const componentExtension = this.version === 'typescript'
       ? '.tsx'
-      : '.js';
+      : '.jsx';
 
-    switch (this.answers.type) {
-      case 'atom':
-        componentPath = `${basePath}/atoms/${this.answers.name}`;
-        componentTemplateFile = `functional${extension}`;
-        break;
+    // the style extension
+    const styleExtension = this.style;
 
-      case 'molecule':
-        componentPath = `${basePath}/molecules/${this.answers.name}`;
-        componentTemplateFile = `functional${extension}`;
-        break;
-
-      case 'organism':
-        componentPath = `${basePath}/organisms/${this.answers.name}`;
-        componentTemplateFile = `functional${extension}`;
-        break;
-
-      case 'template':
-        componentPath = `${basePath}/templates/${this.answers.name}`;
-        componentTemplateFile = `functional${extension}`;
-        break;
-
-      default:
-        componentPath = `${basePath}/pages/${this.answers.name}`;
-        componentTemplateFile = `page${extension}`;
-        break;
-    }
+    // path to save files
+    const baseComponentPath = `src/components/${this.answers.type}/${this.answers.name}`;
+    const baseStylePath = `src/components/${this.answers.type}/${this.answers.name}/style`;
 
     this.fs.copyTpl(
-      this.templatePath(`${folderPath}/${componentTemplateFile}`),
-      this.destinationPath(`${componentPath}/${this.answers.name}${extension}`),
+      this.templatePath(`${versionTemplateDirectory}/${styleExtension}.${componentExtension}`),
+      this.destinationPath(`${baseComponentPath}/${this.answers.name}${componentExtension}`),
       { name: this.answers.name }
     );
 
     this.fs.copyTpl(
-      this.templatePath('style.sass'),
-      this.destinationPath(`${componentPath}/${this.answers.name}.sass`),
+      this.templatePath(`${versionTemplateDirectory}/${styleExtension}.${componentExtension}`),
+      this.destinationPath(`${baseStylePath}/${this.answers.name}${componentExtension}`),
     );
   }
 };

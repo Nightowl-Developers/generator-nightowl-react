@@ -30,7 +30,8 @@ module.exports = class extends Generator {
         choices: [
           'javascript',
           'typescript'
-        ]
+        ],
+        default: 'javascript',
       },
       {
         type: 'list',
@@ -40,7 +41,8 @@ module.exports = class extends Generator {
             'airbnb',
             'prettier',
             'eslint:recommended',
-        ]
+        ],
+        default: 'eslint:recommended',
       },
       {
         type: 'list',
@@ -51,7 +53,8 @@ module.exports = class extends Generator {
           'less',
           'sass',
           'styled-components',
-        ]
+        ],
+        default: 'css',
       }
     ]);
 
@@ -155,9 +158,9 @@ module.exports = class extends Generator {
     }
 
     const reactDependencies = {
-      'react': '16.12.0',
-      'react-dom': '16.12.0',
-      'react-router-dom': '5.2.0',
+      'react': '^16.12.0',
+      'react-dom': '^16.12.0',
+      'react-router-dom': '^5.2.0',
     };
 
     const babelDependencies = {
@@ -259,6 +262,7 @@ module.exports = class extends Generator {
       main: 'src/index.js',
       dependencies: {
         ...reactDependencies,
+        ...(this.answers.style === 'styled-components' && styledComponentsDependencies),
         'path': '0.12.7'
       },
       devDependencies: {
@@ -271,7 +275,6 @@ module.exports = class extends Generator {
         ...(this.answers.linter === 'prettier' && prettierDependencies),
         'rimraf': '3.0.2',
         ...(this.answers.style === 'sass' && sassDependencies),
-        ...(this.answers.style === 'styled-components' && styledComponentsDependencies),
         ...(this.answers.esVersion === 'typescript' && typescriptDependencies),
         ...webpackDependencies,
       }

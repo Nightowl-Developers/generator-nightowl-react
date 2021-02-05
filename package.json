@@ -6,7 +6,7 @@
     "publish:alpha": "npm publish --access=public --scope=@nightowl-developers --tag=alpha",
     "publish:beta": "npm publish --access=public --scope=@nightowl-developers --tag=beta",
     "publish": "npm publish --access=public --scope=@nightowl-developers --tag=latest",
-    "test": "mocha"
+    "test": "nyc --reporter=html ./node_modules/mocha/bin/mocha"
   },
   "files": [
     "generators"
@@ -43,7 +43,9 @@
   "devDependencies": {
     "fs-extra": "^9.0.1",
     "mocha": "^8.0.1",
+    "nyc": "^15.1.0",
     "path": "^0.12.7",
+    "yeoman-assert": "^3.1.1",
     "yeoman-test": "^2.6.0"
   },
   "main": "index.js",
